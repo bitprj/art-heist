@@ -15,8 +15,10 @@ const Art = () => {
         setLoading(true);
         let { data: art_pixels, error } = await supabase
         .from('art_pixels')
-        .select("hex_value");
+        .select("hex_value")
+        .order('location', { ascending: true })
 
+        console.log(art_pixels)
         setHexValues(art_pixels);
       } catch (e) {
         alert(e);
@@ -37,7 +39,7 @@ const Art = () => {
 
   return (
     <Center bg='black' w='calc(100vw)' h='calc(100vh)' color='white'>
-      <SimpleGrid spacingX='0px' spacingY='0px' w='calc(45vw)' h='calc(75vh)' columns={7}>
+      <SimpleGrid spacingX='0px' spacingY='0px' w='calc(45vw)' h='calc(75vh)' columns={32}>
         {hexValues.map(hexValue => (
           <Box p={2} bg={"#" + hexValue.hex_value}>
           </Box>
