@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box } from '@chakra-ui/core';
 import { Center, SimpleGrid } from '@chakra-ui/react'
 
-const SECRET = "bYAwTVt2fQvvK5GDebEJNy4FxqBnYLYi447Xf1FgPpoRvLP6btw84dMDwnecp9de"
+const SECRET = ""
 
 const Art = () => {
   const [hexValues, setHexValues] = useState([]);
