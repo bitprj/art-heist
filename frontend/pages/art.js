@@ -30,14 +30,13 @@ const Art = () => {
       });
   }, []);
 
-    return (
-        <Flex>
+  return (
+    <Center bg='black' w='calc(100vw)' h='calc(100vh)' color='white'>
+      <SimpleGrid spacingX='0px' spacingY='0px' w='calc(45vw)' h='calc(75vh)' columns={7}>
         {hexValues.map(hexValue => (
-            <Box p={2} bg={"#" + hexValue.hex_value}>
-
-            </Box>
+          <Box p={2} bg={"#" + hexValue.hex_value}>
+          </Box>
         ))}
-        </Flex>
     );
 };
 
