@@ -34,7 +34,7 @@ const Art = () => {
 
   return (
     <Center bg='black' h='100px' color='white'>
-      <SimpleGrid w="20%" h="100%" columns={10}>
+      <SimpleGrid w="8%" h="100%" columns={7}>
         {hexValues.map(hexValue => (
           <Box w="25%" h="25%" p={2} bg={"#" + hexValue.hex_value}>
           </Box>
