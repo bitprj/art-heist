@@ -5,5 +5,5 @@ export default withClerkMiddleware((req) => {
   return NextResponse.next();
 });
 
-// Stop Middleware running on static files
+// Stop Middleware running on static file
 export const config = { matcher: '/((?!.*\\.).*)' }
