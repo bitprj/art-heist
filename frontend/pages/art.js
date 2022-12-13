@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Flex, Text } from '@chakra-ui/core';
+import { SimpleGrid } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/core';
+import { Center, Square, Circle } from '@chakra-ui/react'
 
 const SECRET = ""
 
@@ -30,15 +32,16 @@ const Art = () => {
       });
   }, []);
 
-    return (
-        <Flex>
+  return (
+    <Center bg='black' h='100px' color='white'>
+      <SimpleGrid w="20%" h="100%" columns={10}>
         {hexValues.map(hexValue => (
-            <Box p={2} bg={"#" + hexValue.hex_value}>
-
-            </Box>
+          <Box w="25%" h="25%" p={2} bg={"#" + hexValue.hex_value}>
+          </Box>
         ))}
-        </Flex>
-    );
+      </SimpleGrid>
+    </Center>
+  );
 };
 
 export default Art;
