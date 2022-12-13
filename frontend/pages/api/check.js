@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const SECRET = ""
+const SECRET = process.env.NEXT_PUBLIC_SECRET
 
 for (let i = 31; i < 50; i++) {
     const res = await fetch(`https://meet-mako-28.hasura.app/api/rest/location/${i}`, {

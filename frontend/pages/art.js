@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box } from '@chakra-ui/core';
 import { Center, SimpleGrid } from '@chakra-ui/react'
 
-const SECRET = ""
+const SECRET = process.env.NEXT_PUBLIC_SECRET
 
 const Art = () => {
   const [hexValues, setHexValues] = useState([]);
