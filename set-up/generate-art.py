@@ -27,7 +27,7 @@ with Image.open("image.jpg") as image:
   print(width, height)
   
   # Resize the image to a smaller size
-  image.resize((width, height))
+  image = image.resize((width, height))
 
   # Convert the image to RGB format
   image.type = "truecolor"
@@ -44,8 +44,8 @@ with Image.open("image.jpg") as image:
 
   # Loop through the image pixels and store their RGB values in the database
   count = 0
-  for x in range(width):
-    for y in range(height):
+  for y in range(height):
+    for x in range(width):
       count += 1
       r, g, b = image.getpixel((x, y))
       rgb_value = str(r) + "," + str(g) + "," + str(b)
