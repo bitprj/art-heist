@@ -7,5 +7,6 @@ npm run dev
 
 Add `.env.local` to the root of `/frontend`:
 ```
-NEXT_PUBLIC_SECRET="Hasura Admin Secret"
+NEXT_PUBLIC_SUPABASE_URL="Supabase URL"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="Supabase Key"
 ```
