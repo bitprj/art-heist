@@ -1,35 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@chakra-ui/core';
-import { Center, SimpleGrid } from '@chakra-ui/react'
+import { Center, SimpleGrid, Text } from '@chakra-ui/react';
+import { createClient } from '@supabase/supabase-js';
 
-const SECRET = process.env.NEXT_PUBLIC_SECRET
+const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
 
 const Art = () => {
-  const [hexValues, setHexValues] = useState([]);
+  const [hexValues, setHexValues] = useState([])
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://meet-mako-28.hasura.app/v1/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-hasura-admin-secret': SECRET
-      },
-      body: JSON.stringify({
-        query: `
-        query GetHex {
-            art_pixels {
-              hex_value
-            }
-          }
-        `,
-      }),
-    })
-      .then(res => res.json())
-      .then(({ data }) => {
-        setHexValues(data.art_pixels);
-        console.log(hexValues)
-      });
+    const loadPixels = async () => {
+      try {
+        setLoading(true);
+        let { data: art_pixels, error } = await supabase
+        .from('art_pixels')
+        .select("hex_value");
+
+        setHexValues(art_pixels);
+      } catch (e) {
+        alert(e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadPixels();
   }, []);
+
+  // if loading, just show basic message
+  if (loading) {
+    return (
+    <Center bg='black' w='calc(100vw)' h='calc(100vh)' color='white'>
+      <Text>Loading...</Text>
+    </Center>
+    )}
 
   return (
     <Center bg='black' w='calc(100vw)' h='calc(100vh)' color='white'>

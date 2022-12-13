@@ -1,37 +1,24 @@
 import fetch from 'node-fetch';
+import { createClient } from '@supabase/supabase-js'
+const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
 
-const SECRET = process.env.NEXT_PUBLIC_SECRET
+for (let i = 1; i < 50; i++) {
+    let { data: art_pixels, error } = await supabase
+    .from('art_pixels')
+    .select("rgb_value")
+    .eq('location', i)
 
-for (let i = 31; i < 50; i++) {
-    const res = await fetch(`https://meet-mako-28.hasura.app/api/rest/location/${i}`, {
-        headers: {
-            'x-hasura-admin-secret': SECRET
-        }
-    });
-    const data = await res.json();
-    console.log(data)
-    const rgb = data.art_pixels[0].rgb_value
+    console.log(art_pixels)
+    const rgb = art_pixels[0].rgb_value
 
-    const res1 = await fetch(`https://o48pvkru03.execute-api.us-east-1.amazonaws.com/rgb2hex?rgb=${rgb}`);
-    const hex = await res1.json()
+    const res = await fetch(`https://o48pvkru03.execute-api.us-east-1.amazonaws.com/rgb2hex?rgb=${rgb}`);
+    const hex = await res.json()
     console.log(hex.hex)
 
-    const body = {
-        "username": "test",
-        "loc": i,
-        "hex_value": hex.hex
-    };
+    const { data, err } = await supabase
+        .from('art_pixels')
+        .update({ username: 'test', hex_value: hex.hex })
+        .eq('location', i)
 
-    const res2 = await fetch('https://meet-mako-28.hasura.app/api/rest/steal', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-hasura-admin-secret': SECRET
-        },
-        body: JSON.stringify(body)
-    });
-
-    const json = await res2.json();
-    console.log(json)
-
+    console.log(data)
 }
