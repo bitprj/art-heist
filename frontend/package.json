@@ -15,8 +15,13 @@
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
     "@chakra-ui/react": "^2.4.3",
+    "fs": "^0.0.1-security",
+    "net": "^1.0.2",
     "next": "^13.0.6",
+    "postgres": "^3.3.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tls": "^0.0.1",
+    "webpack": "^5.75.0"
   }
 }

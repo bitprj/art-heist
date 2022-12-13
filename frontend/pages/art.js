@@ -1,33 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@chakra-ui/core';
-import { Center, SimpleGrid } from '@chakra-ui/react'
-
-const SECRET = process.env.NEXT_PUBLIC_SECRET
+import { Center, SimpleGrid } from '@chakra-ui/react';
 
 const Art = () => {
   const [hexValues, setHexValues] = useState([]);
 
   useEffect(() => {
-    fetch('https://meet-mako-28.hasura.app/v1/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-hasura-admin-secret': SECRET
-      },
-      body: JSON.stringify({
-        query: `
-        query GetHex {
-            art_pixels {
-              hex_value
-            }
-          }
-        `,
-      }),
-    })
+    fetch('/api/db')
       .then(res => res.json())
       .then(({ data }) => {
-        setHexValues(data.art_pixels);
-        console.log(hexValues)
+        setHexValues(data.data);
+        console.log("Hexes" + hexValues)
       });
   }, []);
 
