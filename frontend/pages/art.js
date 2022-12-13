@@ -38,8 +38,9 @@ const Art = () => {
           <Box p={2} bg={"#" + hexValue.hex_value}>
           </Box>
         ))}
-        </Flex>
-    );
+      </SimpleGrid>
+    </Center>
+  );
 };
 
 export default Art;
