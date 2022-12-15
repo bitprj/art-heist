@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Popover, PopoverTrigger, PopoverContent, Box } from '@chakra-ui/core';
-import { Center, SimpleGrid, Text } from '@chakra-ui/react';
+import { Center, SimpleGrid, Text, Spinner } from '@chakra-ui/react';
 import { createClient } from '@supabase/supabase-js';
 import { QuestionIcon } from '@chakra-ui/icons';
 
@@ -54,8 +54,15 @@ const Art = () => {
   // if loading, just show basic message
   if (loading) {
     return (
-      <Center bg='black' w='calc(100vw)' h='calc(100vh)' color='white'>
-        <Text>Loading...</Text>
+      <Center bg='black' w='calc(100vw)' h='calc(100vh)'>
+        <Spinner
+          thickness='25px'
+          speed='0.65s'
+          emptyColor='#E6FFFA'
+          color='#285E61'
+          size='xl'
+          label='Loading Art...'
+        />
       </Center>
     )
   }
