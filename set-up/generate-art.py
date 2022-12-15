@@ -10,6 +10,9 @@ DBNAME = ""
 USER = ""
 PASS = ""
 
+def rgb_to_hex(r, g, b):
+  return ('{:X}{:X}{:X}').format(r, g, b)
+
 # Open the image file
 with Image.open("image.jpg") as image:
   participants = int(sys.argv[1])
@@ -40,7 +43,7 @@ with Image.open("image.jpg") as image:
 
   # Create the table to store the pixel data
   cur.execute("DROP TABLE art_pixels")
-  cur.execute("CREATE TABLE art_pixels (location INTEGER, rgb_value VARCHAR(255), hex_value VARCHAR(255), username VARCHAR(255))")
+  cur.execute("CREATE TABLE art_pixels (location INTEGER, rgb_value VARCHAR(255), hex_value VARCHAR(255), correct_hex VARCHAR(255), updated_at VARCHAR(255), username VARCHAR(255))")
 
   # Loop through the image pixels and store their RGB values in the database
   count = 0
@@ -49,8 +52,9 @@ with Image.open("image.jpg") as image:
       count += 1
       r, g, b = image.getpixel((x, y))
       rgb_value = str(r) + "," + str(g) + "," + str(b)
-      print(rgb_value, count)
-      cur.execute("INSERT INTO art_pixels (location, rgb_value) VALUES (%s, %s)", (count, rgb_value))
+      hex_value = rgb_to_hex(r, g, b)
+      print(rgb_value, hex_value, count)
+      cur.execute("INSERT INTO art_pixels (location, rgb_value, correct_hex) VALUES (%s, %s)", (count, rgb_value, hex_value))
 
   # Save the changes to the database
   conn.commit()

@@ -19,7 +19,7 @@ function Pixel(hexValue) {
           </Box>
         </PopoverTrigger>
         <PopoverContent boxShadow='dark-lg' borderRadius="6px" pl="3" pr="3" borderWidth="1px" borderColor="gray.500" opacity="0.8" w="auto">
-          <Text color="black"><b>User: </b>{hexValue.username}<br></br><b>Time: </b>{hexValue.updated_at} EST</Text>
+          <Text color="black"><b>User: </b>{hexValue.username}<br></br><b>Time: </b>{hexValue.updated_at} EST<br></br><b>Pixel: </b>{hexValue.location}</Text>
         </PopoverContent>
       </Popover>
     );
@@ -37,7 +37,7 @@ const Art = () => {
         setLoading(true);
         let { data: art_pixels, error } = await supabase
           .from('art_pixels')
-          .select("hex_value, username, updated_at")
+          .select("hex_value, username, updated_at, location")
           .order('location', { ascending: true })
 
         console.log(art_pixels)

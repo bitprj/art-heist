@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     
             const { data, err } = await supabase
                 .from('art_pixels')
-                .update({ username: username, hex_value: hex.hex })
+                .update({ username: username, hex_value: hex.hex, updated_at: new Date().toLocaleString()})
                 .eq('location', i)
     
             console.log(data);
