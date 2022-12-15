@@ -1,17 +1,21 @@
 # To run, python3 generate-art.py [number of participants]
 
+import os
+from dotenv import load_dotenv
 import psycopg2
 import sys, math
 from PIL import Image
 
-# Connect to DB
-HOST = ""
-DBNAME = ""
-USER = ""
-PASS = ""
+load_dotenv()
 
-def rgb_to_hex(r, g, b):
-  return ('{:X}{:X}{:X}').format(r, g, b)
+# Connect to DB
+HOST = os.getenv("HOST")
+DBNAME = os.getenv("DBNAME")
+USER = os.getenv("DBUSER")
+PASS = os.getenv("PASS")
+
+def rgb2hex(r,g,b):
+  return "{:02x}{:02x}{:02x}".format(r, g, b)
 
 # Open the image file
 with Image.open("image.jpg") as image:
@@ -50,11 +54,12 @@ with Image.open("image.jpg") as image:
   for y in range(height):
     for x in range(width):
       count += 1
+      print(image.getpixel((x, y)))
       r, g, b = image.getpixel((x, y))
       rgb_value = str(r) + "," + str(g) + "," + str(b)
-      hex_value = rgb_to_hex(r, g, b)
+      hex_value = rgb2hex(r, g, b)
       print(rgb_value, hex_value, count)
-      cur.execute("INSERT INTO art_pixels (location, rgb_value, correct_hex) VALUES (%s, %s)", (count, rgb_value, hex_value))
+      cur.execute("INSERT INTO art_pixels (location, rgb_value, correct_hex) VALUES (%s, %s, %s)", (count, rgb_value, hex_value))
 
   # Save the changes to the database
   conn.commit()
