@@ -1,13 +1,34 @@
-import { Flex, Button, Input, Text } from '@chakra-ui/react';
+import { Flex, Button, Input, Text, Spinner } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import fetch from 'node-fetch';
+
+function Loading(loading, message) {
+  if (message) {
+    return (
+      <Text mt={4}>{message}</Text>
+    );
+  } else if (loading) {
+    return (
+      <Spinner
+      thickness='15px'
+      speed='0.65s'
+      emptyColor='#E6FFFA'
+      color='#285E61'
+      size='xl'
+      label='Loading Art...'
+    />
+    );
+  }
+}
 
 const Check = () => {
   const [inputValue, setInputValue] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true)
 
     try {
       const response = await fetch('/api/check', {
@@ -22,6 +43,7 @@ const Check = () => {
       });
 
       const result = await response.json();
+      setLoading(false);
       setMessage(result.message);
     } catch (error) {
       setMessage('An error occurred while submitting your URL.');
@@ -40,7 +62,7 @@ const Check = () => {
       <Button type="submit" onClick={handleSubmit}>
         Submit
       </Button>
-      {message && <Text mt={4}>{message}</Text>}
+      {Loading(loading, message)}
     </Flex>
   );
 }
