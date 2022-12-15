@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Popover, PopoverTrigger, PopoverContent, Box } from '@chakra-ui/core';
-import { Center, SimpleGrid, Text, Spinner } from '@chakra-ui/react';
+import { Center, SimpleGrid, Text, Spinner, Popover, PopoverTrigger, PopoverContent, PopoverBody, Box } from '@chakra-ui/react';
 import { createClient } from '@supabase/supabase-js';
 import { QuestionIcon } from '@chakra-ui/icons';
 
@@ -13,13 +12,17 @@ function Pixel(hexValue) {
     );
   } else {
     return (
-      <Popover trigger="hover" matchWidth="true">
+      <Popover trigger="hover">
         <PopoverTrigger>
-          <Box _hover={{ bg: "#fff" }} p={2} bg={"#" + hexValue.hex_value}>
+          <Box _hover={{ filter: 'brightness(250%)' }} p={2} w='auto' h='16px' bg={"#" + hexValue.hex_value}>
           </Box>
         </PopoverTrigger>
-        <PopoverContent boxShadow='dark-lg' borderRadius="6px" pl="3" pr="3" borderWidth="1px" borderColor="gray.500" opacity="0.8" w="auto">
-          <Text color="black"><b>User: </b>{hexValue.username}<br></br><b>Time: </b>{hexValue.updated_at} EST<br></br><b>Pixel: </b>{hexValue.location}</Text>
+        <PopoverContent borderRadius="4px" w='auto' h='auto' bg='white'>
+          <PopoverBody >
+            <Center pr='10px' pl='10px'>
+              <Text color="black"><b>User: </b>{hexValue.username}<br></br><b>Time: </b>{hexValue.updated_at} EST<br></br><b>Pixel: </b>{hexValue.location}</Text>
+            </Center>
+          </PopoverBody>
         </PopoverContent>
       </Popover>
     );
