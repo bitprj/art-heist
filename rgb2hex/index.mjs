@@ -14,7 +14,8 @@ export const handler = async (event) => {
 };
 
 function valueToHex(c) {
-  var hex = c.toString(16);
+  var hex = c.toString(16).padStart(2, '0');
+  // a common error will be to forget the padStart
   return hex
 }
 
