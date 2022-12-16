@@ -29,6 +29,7 @@ const Check = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true)
+    setMessage('')
 
     try {
       const response = await fetch('/api/check', {
