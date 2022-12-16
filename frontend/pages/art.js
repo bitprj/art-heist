@@ -11,6 +11,7 @@ function Pixel(hexValue) {
       <QuestionIcon />
     );
   } else {
+    var dateTime = new Date(parseInt(hexValue.updated_at))
     return (
       <Popover trigger="hover">
         <PopoverTrigger>
@@ -20,7 +21,7 @@ function Pixel(hexValue) {
         <PopoverContent borderRadius="4px" w='auto' h='auto' bg='white'>
           <PopoverBody >
             <Center pr='10px' pl='10px'>
-              <Text color="black"><b>User: </b>{hexValue.username}<br></br><b>Time: </b>{hexValue.updated_at} EST<br></br><b>Pixel: </b>{hexValue.location}</Text>
+              <Text color="black"><b>User: </b>{hexValue.username}<br></br><b>Time: </b>{dateTime.toLocaleString()}<br></br><b>Pixel: </b>{hexValue.location}</Text>
             </Center>
           </PopoverBody>
         </PopoverContent>
