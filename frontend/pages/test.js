@@ -1,6 +1,8 @@
 import { Flex, Button, Input, Text, Spinner } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import fetch from 'node-fetch';
+import { useUser } from '@clerk/nextjs'
+
 
 function Loading(loading, message) {
   if (message) {
@@ -22,6 +24,8 @@ function Loading(loading, message) {
 }
 
 const Check = () => {
+  const { isLoaded, isSignedIn, user } = useUser()
+
   const [inputValue, setInputValue] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -35,7 +39,7 @@ const Check = () => {
       const response = await fetch('/api/check', {
         method: 'POST',
         body: JSON.stringify({
-          "username": "testInput",
+          "username": user.username,
           "start": 1,
           "end": 3,
           "url": inputValue
