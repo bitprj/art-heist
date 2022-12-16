@@ -28,7 +28,6 @@ function Pixel(hexValue) {
       </Popover>
     );
   }
-
 }
 
 const Art = () => {
