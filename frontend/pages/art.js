@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Center, SimpleGrid, Text, Spinner, Popover, PopoverTrigger, PopoverContent, PopoverBody, Box } from '@chakra-ui/react';
 import { createClient } from '@supabase/supabase-js';
-import { QuestionIcon } from '@chakra-ui/icons';
+import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
 
 function Pixel(hexValue) {
   if (hexValue.hex_value == null) {
     return (
-      <QuestionIcon />
+      <QuestionOutlineIcon color="black"/>
     );
   } else {
     var dateTime = new Date(parseInt(hexValue.updated_at))
@@ -57,12 +57,12 @@ const Art = () => {
   // if loading, just show basic message
   if (loading) {
     return (
-      <Center bg='black' w='calc(100vw)' h='calc(100vh)'>
+      <Center bg='white' w='calc(100vw)' h='calc(100vh)'>
         <Spinner
           thickness='25px'
           speed='0.65s'
-          emptyColor='#E6FFFA'
-          color='#285E61'
+          emptyColor='#ccd6fc'
+          color='#325BF1'
           size='xl'
           label='Loading Art...'
         />
@@ -71,7 +71,7 @@ const Art = () => {
   }
 
   return (
-    <Center bg='black' w='calc(100vw)' h='calc(100vh)' color='white'>
+    <Center bg='white' w='calc(100vw)' h='calc(100vh)' color='white'>
       <SimpleGrid spacingX='0px' spacingY='0px' w='auto' h='auto' columns={32}>
         {hexValues.map(hexValue => Pixel(hexValue))}
       </SimpleGrid>

@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import {ClerkLoaded, ClerkProvider, SignedIn, SignedOut} from "@clerk/nextjs";
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, Center } from '@chakra-ui/react'
 import Header from "../components/Header.jsx";
 import {useRouter} from "next/router";
 
@@ -26,7 +26,9 @@ function MyApp({ Component, pageProps }) {
             </SignedIn>
             <SignedOut>
               <div className="protected">
-                <p>You need to be signed in to access this page.</p>
+                <Center>
+                  <p>🔐 You need to be signed in to access this page.</p>
+                </Center>
               </div>
             </SignedOut>
           </>
