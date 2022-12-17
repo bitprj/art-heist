@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Center, SimpleGrid, Text, Spinner, Popover, PopoverTrigger, PopoverContent, PopoverBody, Box } from '@chakra-ui/react';
 import { createClient } from '@supabase/supabase-js';
-import { QuestionIcon } from '@chakra-ui/icons';
+import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
 
 function Pixel(hexValue) {
   if (hexValue.hex_value == null) {
     return (
-      <QuestionIcon color="black"/>
+      <QuestionOutlineIcon color="black"/>
     );
   } else {
     var dateTime = new Date(parseInt(hexValue.updated_at))
