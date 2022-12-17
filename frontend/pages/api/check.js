@@ -5,7 +5,8 @@ const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.
 export default async function handler(req, res) {
     console.log(req.body)
     const { start, end, url, username } = req.body;
-    let response = ""
+    let response = "";
+    let cases = [];
     let incorrectValue = false;
 
     try {
@@ -22,15 +23,25 @@ export default async function handler(req, res) {
             const hex = await res.json()
             console.log(hex.hex)
 
+            var c = {
+                "correct_hex": art_pixels[0].correct_hex,
+                "received_hex": hex.hex,
+            }
+
             if (art_pixels[0].correct_hex != hex.hex) {
                 incorrectValue = true;
+                c.status = "❌";
+            } else {
+                c.status = "✅";
             }
     
             const { data, err } = await supabase
                 .from('art_pixels')
                 .update({ username: username, hex_value: hex.hex, updated_at: new Date().getTime()})
                 .eq('location', i)
-    
+            
+            console.log(c);
+            cases.push(c);
             console.log(data);
         }
         
@@ -44,5 +55,5 @@ export default async function handler(req, res) {
         response = `There was an issue requesting your Lambda function. Here was the error: ${e}`;
     }
 
-    res.status(200).json({ message: response })
+    res.status(200).json({ message: response, cases: cases })
 }
