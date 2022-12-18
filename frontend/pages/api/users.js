@@ -8,5 +8,5 @@ export default async function handler(req, res) {
     const result = await response.json();
     console.log(result);
 
-    res.status(200).json({ users: result })
+    res.status(200).json({ users: result})
 }

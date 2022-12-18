@@ -1,31 +1,32 @@
-import { Flex, Button, Text } from '@chakra-ui/react';
+import { Box, VStack, Flex, Button, Text, Spinner, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import fetch from 'node-fetch';
 import { useUser } from '@clerk/nextjs'
 
-function Loading(loading, message, users) {
-    if (message) {
+function Loading(loading, users) {
+    if (users) {
+        console.log(users)
         return (
             <Box pl="30px" pr="30px" w="auto" borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow="xl">
                 <VStack spacing={4}>
-                    <Text mt={4}>{message}</Text>
+                    {/* <Text mt={4}>{message}</Text> */}
                     <Center>
                         <TableContainer>
                             <Table variant='simple'>
-                                <TableCaption placement="top">Test Cases</TableCaption>
+                                <TableCaption placement="top">Registered Users</TableCaption>
                                 <Thead>
                                     <Tr>
-                                        <Th>Status</Th>
-                                        <Th>Expected hex value</Th>
-                                        <Th>Received hex value</Th>
+                                        <Th>Name</Th>
+                                        <Th>Username</Th>
+                                        <Th>Pixels</Th>
                                     </Tr>
                                 </Thead>
                                 <Tbody>
-                                    {users.map(c => (
+                                    {users.map(user => (
                                         <Tr>
-                                            <Td>{c.status}</Td>
-                                            <Td>#{c.correct_hex}</Td>
-                                            <Td>#{c.received_hex}</Td>
+                                            <Td>{user.first_name}&nbsp;{user.last_name}</Td>
+                                            <Td>{user.username}</Td>
+                                            <Td>Temp</Td>
                                         </Tr>
                                     ))}
                                 </Tbody>
@@ -49,33 +50,23 @@ function Loading(loading, message, users) {
 
 const Admin = () => {
     const { isLoaded, isSignedIn, user } = useUser();
-    const [message, setMessage] = useState('');
+    // const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
-    const [users, setUsers] = useState({});
+    const [users, setUsers] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
-        setMessage('');
+        setUsers('');
 
-        try {
-            const response = await fetch('/api/check', {
-                method: 'POST',
-                body: JSON.stringify({
-                    "username": user.username,
-                    "start": 1,
-                    "end": 3,
-                    "url": inputValue
-                }),
-                headers: { 'Content-Type': 'application/json' },
-            });
+        const response = await fetch('/api/users');
+        const result = await response.json();
+        setUsers(result.users);
 
-            const result = await response.json();
-            setLoading(false);
-            setMessage(result.message);
-        } catch (error) {
-            setMessage('An error occurred while starting the workshop.');
-        }
+        const resp = await fetch('/api/count');
+        const res = await resp.json();
+
+        setLoading(false);
     }
 
     return (
@@ -90,7 +81,7 @@ const Admin = () => {
                 Start Workshop
             </Button>
             <br></br>
-            {Loading(loading, message)}
+            {Loading(loading, users)}
             PUT CURRENT LIST OF USERS AND total number of people
         </Flex>
     );
