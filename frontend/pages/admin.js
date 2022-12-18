@@ -1,7 +1,7 @@
 import { Box, VStack, Flex, Button, Text, Spinner, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import fetch from 'node-fetch';
-import { useUser } from '@clerk/nextjs'
+import { useUser,  } from '@clerk/nextjs'
 
 function Loading(loading, users) {
     if (users) {
@@ -59,12 +59,20 @@ const Admin = () => {
         setLoading(true);
         setUsers('');
 
-        const response = await fetch('/api/users');
+        const response = await fetch('/api/users', {
+            headers: {"key": process.env.NEXT_PUBLIC_KEY}
+        });
         const result = await response.json();
         setUsers(result.users);
 
         const resp = await fetch('/api/count');
         const res = await resp.json();
+
+        const pixels = Math.floor(res.total_pixels / result.users.length);
+        for (var i = 0; i < result.users.length; i ++) {
+            await users.updateUser(userId, { publicMetadata: { } });
+
+        }
 
         setLoading(false);
     }
