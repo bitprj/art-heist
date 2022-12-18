@@ -8,7 +8,7 @@ const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.
 function Pixel(hexValue) {
   if (hexValue.hex_value == null) {
     return (
-      <QuestionOutlineIcon color="black"/>
+      <QuestionOutlineIcon color="black" />
     );
   } else {
     var dateTime = new Date(parseInt(hexValue.updated_at))
@@ -57,9 +57,9 @@ const Art = () => {
   // if loading, just show basic message
   if (loading) {
     return (
-      <Center bg='white' w='calc(100vw)' h='calc(100vh)'>
+      <Center bg='white' w='calc(100vw)' h='calc(80vh)'>
         <Spinner
-          thickness='25px'
+          thickness='10px'
           speed='0.65s'
           emptyColor='#ccd6fc'
           color='#325BF1'
@@ -71,7 +71,7 @@ const Art = () => {
   }
 
   return (
-    <Center bg='white' w='calc(100vw)' h='calc(100vh)' color='white'>
+    <Center bg='white' w='calc(100vw)' h='calc(80vh)' color='white'>
       <SimpleGrid spacingX='0px' spacingY='0px' w='auto' h='auto' columns={32}>
         {hexValues.map(hexValue => Pixel(hexValue))}
       </SimpleGrid>
