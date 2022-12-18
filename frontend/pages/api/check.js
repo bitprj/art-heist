@@ -13,7 +13,7 @@ export default async function handler(req, res) {
         for (let i = start; i <= end; i++) {
             let { data: art_pixels, error } = await supabase
                 .from('art_pixels')
-                .select('rgb_value, correct_hex')
+                .select('rgb_value, correct_hex, location')
                 .eq('location', i)
     
             console.log(art_pixels)
@@ -26,6 +26,7 @@ export default async function handler(req, res) {
             var c = {
                 "correct_hex": art_pixels[0].correct_hex,
                 "received_hex": hex.hex,
+                "location": art_pixels[0].location
             }
 
             if (art_pixels[0].correct_hex != hex.hex) {

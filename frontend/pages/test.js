@@ -17,6 +17,7 @@ function Loading(loading, message, cases) {
                 <TableCaption placement="top">Test Cases</TableCaption>
                 <Thead>
                   <Tr>
+                    <Th>Pixel #</Th>
                     <Th>Status</Th>
                     <Th>Expected hex value</Th>
                     <Th>Received hex value</Th>
@@ -25,6 +26,7 @@ function Loading(loading, message, cases) {
                 <Tbody>
                   {cases.map(c => (
                     <Tr>
+                      <Td>{c.location}</Td>
                       <Td>{c.status}</Td>
                       <Td>#{c.correct_hex}</Td>
                       <Td>#{c.received_hex}</Td>
