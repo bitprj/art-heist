@@ -1,17 +1,20 @@
-import { Progress, Box, VStack, Flex, Button, Input, Text, Spinner, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody } from '@chakra-ui/react';
+import { CircularProgress, Box, VStack, Flex, Button, Input, Text, Spinner, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import fetch from 'node-fetch';
 import { useUser } from '@clerk/nextjs'
 
-
-function Loading(loading, message, cases, prog) {
+function Bar(loading, prog) {
   if (loading) {
     return (
-      <Center>     
-        <Progress color='#325BF1' value={prog} />
+      <Center>
+        <CircularProgress color='#325BF1' value={prog} size="90px"/>
       </Center>
     );
-  } else if (message) {
+  }
+}
+
+function Loading(message, cases) {
+  if (message) {
     console.log(cases);
     if (cases != "") {
       return (
@@ -59,75 +62,78 @@ function Loading(loading, message, cases, prog) {
   }
 }
 
-  const Test = () => {
-    const { user } = useUser();
-    const [inputValue, setInputValue] = useState('');
-    const [message, setMessage] = useState('');
-    const [cases, setCases] = useState({});
-    const [prog, setProg] = useState(0);
-    const [loading, setLoading] = useState(false);
+const Test = () => {
+  const { user } = useUser();
+  const [inputValue, setInputValue] = useState('');
+  const [message, setMessage] = useState('');
+  const [cases, setCases] = useState({});
+  const [prog, setProg] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      setLoading(true);
-      setMessage('');
-      setCases('');
-      var cases = [];
-      var message = "";
-      var success = true;
-      // var start = parseInt(user.publicMetadata.public_metadata.range.split(",")[0]);
-      // var end = parseInt(user.publicMetadata.public_metadata.range.split(",")[1]);
-      var start = 1;
-      var end = 5;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setMessage('');
+    setCases('');
+    setProg(0);
+    var cases = [];
+    var message = "";
+    var success = true;
+    // var start = parseInt(user.publicMetadata.public_metadata.range.split(",")[0]);
+    // var end = parseInt(user.publicMetadata.public_metadata.range.split(",")[1]);
+    var start = 1;
+    var end = 10;
 
-      try {
-        for (let i = start; i <= end; i++) {
-          const response = await fetch('/api/check', {
-            method: 'POST',
-            body: JSON.stringify({
-              "location": i,
-              "username": user.username,
-              "url": inputValue
-            }),
-            headers: { 'Content-Type': 'application/json' },
-          });
+    try {
+      for (let i = start; i <= end; i++) {
+        const response = await fetch('/api/check', {
+          method: 'POST',
+          body: JSON.stringify({
+            "location": i,
+            "username": user.username,
+            "url": inputValue
+          }),
+          headers: { 'Content-Type': 'application/json' },
+        });
 
-          const result = await response.json();
-          console.log(result.case);
+        const result = await response.json();
+        console.log(result.case);
 
-          if (typeof result.case === 'string' || result.case instanceof String) {
-            message = result.case;
-            success = false;
-            setLoading(false);
-            break;
-          } else if (result.case.status == "❌") {
-            success = false;
-          }
-
-          console.log(result);
-          cases.push(result.case);
-
-          setProg(Math.floor(start / (end - start + 1)));
+        if (typeof result.case === 'string' || result.case instanceof String) {
+          message = result.case;
+          success = false;
+          setLoading(false);
+          break;
+        } else if (result.case.status == "❌") {
+          success = false;
         }
 
-        if (success) {
-          message = "🥳 Success! Your portion of the artwork was recovered. " + message;
-        } else {
-          message = "😔 Uh oh. Something went wrong. " + message;
-        }
+        console.log(result);
+        cases.push(result.case);
 
-        setLoading(false);
-        setMessage(message);
-        setCases(cases);
-      } catch (error) {
-        console.log(error)
-        setLoading(false);
-        setMessage('An error occurred while submitting your URL.');
+        setProg(Math.floor(i / (end - start + 1) * 100));
       }
-    }
 
-    return (
-      <Flex pl="280px" pr="280px" direction="column" alignItems="center" mt={8}>
+      if (success) {
+        message = "🥳 Success! Your portion of the artwork was recovered. " + message;
+      } else {
+        message = "😔 Uh oh. Something went wrong. " + message;
+      }
+
+      setLoading(false);
+      setMessage(message);
+      setCases(cases);
+      setProg(0);
+    } catch (error) {
+      console.log(error)
+      setLoading(false);
+      setMessage('An error occurred while submitting your URL.');
+    }
+  }
+
+  return (
+    <Center>
+      <Flex direction="column" alignItems="center" mt={8}>
         <Flex>
           <Text htmlFor="input" fontSize="5xl">Welcome,&nbsp;</Text>
           <Text htmlFor="input" fontSize="5xl" color="#325BF1"><b>{user.firstName}</b></Text>
@@ -142,6 +148,7 @@ function Loading(loading, message, cases, prog) {
           value={inputValue}
           onChange={(event) => setInputValue(event.target.value)}
           placeholder="Your Lambda function's URL"
+          width="600px"
           isRequired
         />
         <br></br>
@@ -149,9 +156,11 @@ function Loading(loading, message, cases, prog) {
           Submit
         </Button>
         <br></br>
-        {Loading(loading, message, cases, prog)}
+        {Loading(message, cases)}
+        {Bar(loading, prog)}
       </Flex>
-    );
-  }
+    </Center>
+  );
+}
 
-  export default Test;
+export default Test;
