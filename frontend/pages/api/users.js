@@ -1,18 +1,21 @@
-import fetch from 'node-fetch';
+import clerk from '@clerk/clerk-sdk-node';
 
-export default async function handler(req, res) {   
+export default async function handler(req, res) {
     var result = "";
+    console.log(req.method)
 
-    if (req.headers.key == process.env.NEXT_PUBLIC_KEY) {
-        const response = await fetch('https://api.clerk.dev/v1/users?order_by=-created_at', {
-            headers: { 'Authorization': `Bearer ${process.env.CLERK_API_KEY}` },
-        });
-
-        result = await response.json();
-        console.log(result);
+    if (req.method == "GET") {
+        if (req.headers.key == process.env.NEXT_PUBLIC_KEY) {
+            result = await clerk.users.getUserList();
+            console.log(result)
+        } else {
+            result = "Unauthorized request."
+        }
     } else {
-        result = "Unauthorized request."
+        const {id, public_metadata} = req.body
+        console.log(id, public_metadata)
+        result = await clerk.users.updateUser(id, { publicMetadata: {public_metadata} });
     }
 
-    res.status(200).json({ users: result })
+    res.status(200).json({ result: result })
 }

@@ -67,8 +67,8 @@ const Test = () => {
         method: 'POST',
         body: JSON.stringify({
           "username": user.username,
-          "start": 1,
-          "end": 3,
+          "start": parseInt(user.publicMetadata.public_metadata.range.split(",")[0]),
+          "end": parseInt(user.publicMetadata.public_metadata.range.split(",")[1]),
           "url": inputValue
         }),
         headers: { 'Content-Type': 'application/json' },

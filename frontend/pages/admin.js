@@ -1,7 +1,7 @@
 import { Box, VStack, Flex, Button, Text, Spinner, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import fetch from 'node-fetch';
-import { useUser,  } from '@clerk/nextjs'
+import { useUser } from '@clerk/nextjs'
 
 function Loading(loading, users) {
     if (users) {
@@ -18,15 +18,17 @@ function Loading(loading, users) {
                                     <Tr>
                                         <Th>Name</Th>
                                         <Th>Username</Th>
-                                        <Th>Pixels</Th>
+                                        <Th>Start Pixel</Th>
+                                        <Th>End Pixel</Th>
                                     </Tr>
                                 </Thead>
                                 <Tbody>
                                     {users.map(user => (
                                         <Tr>
-                                            <Td>{user.first_name}&nbsp;{user.last_name}</Td>
+                                            <Td>{user.firstName}&nbsp;{user.lastName}</Td>
                                             <Td>{user.username}</Td>
-                                            <Td>Temp</Td>
+                                            <Td>{user.publicMetadata.public_metadata.range.split(",")[0]}</Td>
+                                            <Td>{user.publicMetadata.public_metadata.range.split(",")[1]}</Td>
                                         </Tr>
                                     ))}
                                 </Tbody>
@@ -34,6 +36,7 @@ function Loading(loading, users) {
                         </TableContainer>
                     </Center>
                 </VStack>
+                <br></br>
             </Box>);
     } else if (loading) {
         return (
@@ -59,21 +62,54 @@ const Admin = () => {
         setLoading(true);
         setUsers('');
 
+        // call api to get list of users
         const response = await fetch('/api/users', {
-            headers: {"key": process.env.NEXT_PUBLIC_KEY}
+            method: "GET",
+            headers: { "key": process.env.NEXT_PUBLIC_KEY }
         });
         const result = await response.json();
-        setUsers(result.users);
 
         const resp = await fetch('/api/count');
         const res = await resp.json();
 
-        const pixels = Math.floor(res.total_pixels / result.users.length);
-        for (var i = 0; i < result.users.length; i ++) {
-            await users.updateUser(userId, { publicMetadata: { } });
+        var totalPixels = res.total_pixels
+        const pixels = Math.floor(totalPixels / result.result.length);
 
+        // add pixel ranges 
+        var start = 1;
+        var end = pixels;
+        totalPixels -= pixels;
+        for (var i = 0; i < result.result.length; i++) {
+            console.log(start + "," + end);
+            console.log(result.result[i].id)
+            const resp = await fetch(`/api/users`, {
+                method: "POST",
+                body: JSON.stringify({
+                    "id": result.result[i].id,
+                    "public_metadata": { "range": start + "," + end }
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            const res = await resp.json();
+            console.log(res)
+
+            totalPixels -= pixels;
+            start += pixels;
+            end += pixels;
+
+            if (totalPixels < pixels) {
+                end += totalPixels
+            }
         }
 
+        // update users on main page
+        const response2 = await fetch('/api/users', {
+            headers: { "key": process.env.NEXT_PUBLIC_KEY }
+        });
+        const result2 = await response2.json();
+        setUsers(result2.result);
         setLoading(false);
     }
 
@@ -90,7 +126,6 @@ const Admin = () => {
             </Button>
             <br></br>
             {Loading(loading, users)}
-            PUT CURRENT LIST OF USERS AND total number of people
         </Flex>
     );
 }
