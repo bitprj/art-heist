@@ -1,4 +1,4 @@
-import { CircularProgress, Box, VStack, Flex, Button, Input, Text, Spinner, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody } from '@chakra-ui/react';
+import { CircularProgress, Box, VStack, Flex, Button, Input, Text, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import fetch from 'node-fetch';
 import { useUser } from '@clerk/nextjs'
@@ -79,10 +79,8 @@ const Test = () => {
     var cases = [];
     var message = "";
     var success = true;
-    // var start = parseInt(user.publicMetadata.public_metadata.range.split(",")[0]);
-    // var end = parseInt(user.publicMetadata.public_metadata.range.split(",")[1]);
-    var start = 1;
-    var end = 10;
+    var start = parseInt(user.publicMetadata.public_metadata.range.split(",")[0]);
+    var end = parseInt(user.publicMetadata.public_metadata.range.split(",")[1]);
 
     try {
       for (let i = start; i <= end; i++) {
@@ -111,7 +109,9 @@ const Test = () => {
         console.log(result);
         cases.push(result.case);
 
-        setProg(Math.floor(i / (end - start + 1) * 100));
+        setProg(Math.floor((i - start) / (end - start + 1) * 100));
+        console.log(i, start, end)
+        console.log(Math.floor(i / (end - start + 1) * 100))
       }
 
       if (success) {
