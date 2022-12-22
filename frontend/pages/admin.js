@@ -1,9 +1,9 @@
-import { Box, VStack, Flex, Button, Text, Spinner, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody } from '@chakra-ui/react';
+import { Box, VStack, Flex, Button, Text, CircularProgress, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import fetch from 'node-fetch';
 import { useUser } from '@clerk/nextjs'
 
-function Loading(loading, users) {
+function Loading(loading, users, prog) {
     if (users) {
         console.log(users)
         return (
@@ -40,13 +40,9 @@ function Loading(loading, users) {
             </Box>);
     } else if (loading) {
         return (
-            <Spinner
-                thickness='15px'
-                speed='0.65s'
-                emptyColor='#ccd6fc'
-                color='#325BF1'
-                size='xl'
-            />
+            <Center>
+                <CircularProgress color='#325BF1' value={prog} size="90px" />
+            </Center>
         );
     }
 }
@@ -56,6 +52,7 @@ const Admin = () => {
     // const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [users, setUsers] = useState('');
+    const [prog, setProg] = useState(0);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -102,6 +99,8 @@ const Admin = () => {
             if (totalPixels < pixels) {
                 end += totalPixels
             }
+
+            setProg((i + 1) / result.result.length * 100);
         }
 
         // update users on main page
@@ -111,6 +110,7 @@ const Admin = () => {
         const result2 = await response2.json();
         setUsers(result2.result);
         setLoading(false);
+        setProg(0);
     }
 
     return (
@@ -125,7 +125,7 @@ const Admin = () => {
                 Start Workshop
             </Button>
             <br></br>
-            {Loading(loading, users)}
+            {Loading(loading, users, prog)}
         </Flex>
     );
 }
