@@ -157,7 +157,7 @@ const Test = () => {
         <Text htmlFor="input" fontSize="md">(aka <b>@{user.username}</b>)</Text>
         <br></br>
         <Box pl="30px" pr="30px" w="auto" borderWidth='1px' borderRadius='3xl' overflow='hidden' boxShadow="sm">
-          <Text htmlFor="input" fontSize="large">Your function will restore pixels <b>{ }</b> through <b>{user.publicMetadata.public_metadata.range.split(",")[1]}</b>.</Text>
+          <Text htmlFor="input" fontSize="large">Your function will restore pixels <b>{startPixel}</b> through <b>{endPixel}</b>.</Text>
         </Box>
         <br></br>
         <Text htmlFor="input" fontSize="xl">Enter your Lambda function's endpoint:</Text>
