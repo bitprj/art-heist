@@ -54,9 +54,7 @@ const Admin = () => {
     const [users, setUsers] = useState('');
     const [prog, setProg] = useState(0);
 
-    try {
-        var admin = user.publicMetadata.public_metadata.admin;
-    } catch (e) {
+    if (user.publicMetadata.public_metadata.admin != true) {
         return (
           <div className="protected">
             <Center>
@@ -64,7 +62,7 @@ const Admin = () => {
             </Center>
           </div>
         )
-      }
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
