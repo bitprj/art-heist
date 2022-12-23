@@ -27,7 +27,7 @@ const Header = () => {
       </SignedIn>
       <SignedOut>
         <div className={styles.headerItem}>
-          <a onClick={() => openSignIn()} className={styles.signInButton}>
+          <a href="/signin" className={styles.signInButton}>
             Sign in
           </a>
         </div>
