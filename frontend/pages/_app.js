@@ -4,7 +4,7 @@ import { ChakraProvider, Center } from '@chakra-ui/react'
 import Header from "../components/Header.jsx";
 import {useRouter} from "next/router";
 
-const publicPages = ["/", "/art"];
+const publicPages = ["/", "/art", "/signin", "/signup"];
 
 
 function MyApp({ Component, pageProps }) {

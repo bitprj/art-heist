@@ -54,6 +54,16 @@ const Admin = () => {
     const [users, setUsers] = useState('');
     const [prog, setProg] = useState(0);
 
+    if (user.publicMetadata.public_metadata.admin != true) {
+        return (
+          <div className="protected">
+            <Center>
+              <p>🔑 You must be an admin to access this page.</p>
+            </Center>
+          </div>
+        )
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
