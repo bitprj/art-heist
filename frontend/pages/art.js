@@ -8,7 +8,7 @@ const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.
 function Pixel(hexValue) {
   if (hexValue.hex_value == null) {
     return (
-      <QuestionOutlineIcon color="black" />
+      <QuestionOutlineIcon boxSize="8px" color="black" />
     );
   } else {
     var dateTime = new Date(parseInt(hexValue.updated_at))
@@ -72,7 +72,7 @@ const Art = () => {
 
   return (
     <Center bg='white' w='calc(100vw)' h='calc(80vh)' color='white'>
-      <SimpleGrid spacingX='0px' spacingY='0px' w='auto' h='auto' columns={32}>
+      <SimpleGrid spacingX='0px' spacingY='0px' w='auto' h='auto' columns={79}>
         {hexValues.map(hexValue => Pixel(hexValue))}
       </SimpleGrid>
     </Center>
