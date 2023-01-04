@@ -100,17 +100,18 @@ const Test = () => {
 
     try {
       // Set the number of requests to send in each batch
-      const batchSize = 600;
+      const batchSize = 50;
       var output = [];
       var total = end - start + 1;
 
       // Split the range of integers into batches
       var s = start;
       var e = start + batchSize;
-      console.log(s, e)
+      var interval = Math.floor(total / batchSize);
+      console.log(s, e, total, total / batchSize)
       var batches = [];
       total -= batchSize;
-      for (var i = 0; i < Math.ceil(total / batchSize) + 1; i++) {
+      for (var i = 0; i < interval; i++) {
         let a = []
         for (var x = s; x < e; x++) {
           a.push(x);
