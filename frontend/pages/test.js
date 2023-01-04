@@ -1,4 +1,4 @@
-import { CircularProgress, Box, VStack, Flex, Button, Input, Text, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody } from '@chakra-ui/react';
+import { FormHelperText, FormErrorMessage, CircularProgress, Box, VStack, Flex, Button, Input, Text, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody, FormControl } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useUser } from '@clerk/nextjs'
 import axios from 'axios';
@@ -71,6 +71,7 @@ const Test = () => {
   const [loading, setLoading] = useState(false);
   var startPixel = "";
   var endPixel = "";
+  const isError = inputValue === '';
 
   try {
     startPixel = user.publicMetadata.public_metadata.range.split(",")[0];
@@ -142,6 +143,8 @@ const Test = () => {
             },
           })
 
+        setProg(Math.floor((batch[batch.length / 2] - start) / (end - start + 1) * 100));
+
         const results = await Promise.all(promises);
         // Do something with the results
         output = output.concat(results);
@@ -149,7 +152,7 @@ const Test = () => {
 
       console.log(output);
 
-      for (var i = 0; i < output.length; i ++) {
+      for (var i = 0; i < output.length; i++) {
         console.log(output[i]);
         if (typeof output[i].data.case === 'string' || output[i].data.case instanceof String) {
           message = output[i].data.case;
@@ -162,10 +165,6 @@ const Test = () => {
 
         cases.push(output[i].data.case);
       }
-
-      // setProg(Math.floor((i - start) / (end - start + 1) * 100));
-      // console.log(i, start, end)
-      // console.log(Math.floor(i / (end - start + 1) * 100))
 
       if (success) {
         message = "🥳 Success! Your portion of the artwork was recovered. " + message;
@@ -199,15 +198,24 @@ const Test = () => {
         </Box>
         <br></br>
         <Text htmlFor="input" fontSize="xl">Enter your Lambda function's endpoint:</Text>
-        <Input
-          id="input"
-          type="text"
-          value={inputValue}
-          onChange={(event) => setInputValue(event.target.value)}
-          placeholder="Your Lambda function's URL"
-          width="600px"
-          isRequired
-        />
+        <FormControl isInvalid={isError}>
+          <Input
+            id="input"
+            type="text"
+            value={inputValue}
+            onChange={(event) => setInputValue(event.target.value)}
+            placeholder="Your Lambda function's URL"
+            width="600px"
+            isRequired
+          />
+          {!isError ? (
+            <FormHelperText>
+              Press submit to test.
+            </FormHelperText>
+          ) : (
+            <FormErrorMessage>URL is required.</FormErrorMessage>
+          )}
+        </FormControl>
         <br></br>
         <Button type="submit" onClick={handleSubmit}>
           Submit

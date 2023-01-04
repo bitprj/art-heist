@@ -72,7 +72,7 @@ const Art = () => {
 
   return (
     <Center bg='white' w='calc(100vw)' h='calc(80vh)' color='white'>
-      <SimpleGrid spacingX='0px' spacingY='0px' w='auto' h='auto' columns={99}>
+      <SimpleGrid spacingX='0px' spacingY='0px' w='auto' h='auto' columns={32}>
         {hexValues.map(hexValue => Pixel(hexValue))}
       </SimpleGrid>
     </Center>
