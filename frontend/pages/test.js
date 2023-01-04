@@ -96,7 +96,6 @@ const Test = () => {
     var success = true;
     var start = parseInt(user.publicMetadata.public_metadata.range.split(",")[0]);
     var end = parseInt(user.publicMetadata.public_metadata.range.split(",")[1]);
-    var arr = [];
 
     try {
       // Set the number of requests to send in each batch
@@ -145,41 +144,39 @@ const Test = () => {
 
         const results = await Promise.all(promises);
         // Do something with the results
-        output.concat(results);
-
+        output = output.concat(results);
       }
-      console.log(output)
 
-      // let requests = await Promise.all(arr);
-      // const result = await response.json();
-      // console.log(result.case);
+      console.log(output);
 
-      // if (typeof result.case === 'string' || result.case instanceof String) {
-      //   message = result.case;
-      //   success = false;
-      //   setLoading(false);
-      //   break;
-      // } else if (result.case.status == "❌") {
-      //   success = false;
-      // }
+      for (var i = 0; i < output.length; i ++) {
+        console.log(output[i]);
+        if (typeof output[i].data.case === 'string' || output[i].data.case instanceof String) {
+          message = output[i].data.case;
+          success = false;
+          setLoading(false);
+          break;
+        } else if (output[i].data.case.status == "❌") {
+          success = false;
+        }
 
-      // console.log(result);
-      // cases.push(result.case);
+        cases.push(output[i].data.case);
+      }
 
       // setProg(Math.floor((i - start) / (end - start + 1) * 100));
       // console.log(i, start, end)
       // console.log(Math.floor(i / (end - start + 1) * 100))
 
-      // if (success) {
-      //   message = "🥳 Success! Your portion of the artwork was recovered. " + message;
-      // } else {
-      //   message = "😔 Uh oh. Something went wrong. " + message;
-      // }
+      if (success) {
+        message = "🥳 Success! Your portion of the artwork was recovered. " + message;
+      } else {
+        message = "😔 Uh oh. Something went wrong. " + message;
+      }
 
-      // setLoading(false);
-      // setMessage(message);
-      // setCases(cases);
-      // setProg(0);
+      setLoading(false);
+      setMessage(message);
+      setCases(cases);
+      setProg(0);
     } catch (error) {
       console.log(error);
       setLoading(false);
