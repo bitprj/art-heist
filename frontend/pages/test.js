@@ -1,7 +1,7 @@
 import { CircularProgress, Box, VStack, Flex, Button, Input, Text, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import fetch from 'node-fetch';
 import { useUser } from '@clerk/nextjs'
+import axios from 'axios';
 
 function Bar(loading, prog) {
   if (loading) {
@@ -96,51 +96,91 @@ const Test = () => {
     var success = true;
     var start = parseInt(user.publicMetadata.public_metadata.range.split(",")[0]);
     var end = parseInt(user.publicMetadata.public_metadata.range.split(",")[1]);
+    var arr = [];
 
     try {
-      for (let i = start; i <= end; i++) {
-        const response = await fetch('/api/check', {
-          method: 'POST',
-          body: JSON.stringify({
-            "location": i,
-            "username": user.username,
-            "url": inputValue
-          }),
-          headers: { 'Content-Type': 'application/json' },
-        });
+      // Set the number of requests to send in each batch
+      const batchSize = 600;
+      var output = [];
+      var total = end - start + 1;
 
-        const result = await response.json();
-        console.log(result.case);
-
-        if (typeof result.case === 'string' || result.case instanceof String) {
-          message = result.case;
-          success = false;
-          setLoading(false);
-          break;
-        } else if (result.case.status == "❌") {
-          success = false;
+      // Split the range of integers into batches
+      var s = start;
+      var e = start + batchSize;
+      console.log(s, e)
+      var batches = [];
+      total -= batchSize;
+      for (var i = 0; i < Math.ceil(total / batchSize) + 1; i++) {
+        let a = []
+        for (var x = s; x < e; x++) {
+          a.push(x);
         }
+        batches.push(a)
 
-        console.log(result);
-        cases.push(result.case);
+        total -= batchSize;
+        s += batchSize;
+        e += batchSize;
 
-        setProg(Math.floor((i - start) / (end - start + 1) * 100));
-        console.log(i, start, end)
-        console.log(Math.floor(i / (end - start + 1) * 100))
+        if (total < batchSize) {
+          e += total;
+        }
       }
 
-      if (success) {
-        message = "🥳 Success! Your portion of the artwork was recovered. " + message;
-      } else {
-        message = "😔 Uh oh. Something went wrong. " + message;
-      }
+      console.log(batches);
 
-      setLoading(false);
-      setMessage(message);
-      setCases(cases);
-      setProg(0);
+      // Send the requests in batches using Promise.all
+      for (const batch of batches) {
+        const promises = batch.map(i => axios.post('http://localhost:3000/api/check',
+          {
+            location: i,
+            username: user.username,
+            url: inputValue
+          }),
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          })
+
+        const results = await Promise.all(promises);
+        // Do something with the results
+        output.concat(results);
+
+      }
+      console.log(output)
+
+      // let requests = await Promise.all(arr);
+      // const result = await response.json();
+      // console.log(result.case);
+
+      // if (typeof result.case === 'string' || result.case instanceof String) {
+      //   message = result.case;
+      //   success = false;
+      //   setLoading(false);
+      //   break;
+      // } else if (result.case.status == "❌") {
+      //   success = false;
+      // }
+
+      // console.log(result);
+      // cases.push(result.case);
+
+      // setProg(Math.floor((i - start) / (end - start + 1) * 100));
+      // console.log(i, start, end)
+      // console.log(Math.floor(i / (end - start + 1) * 100))
+
+      // if (success) {
+      //   message = "🥳 Success! Your portion of the artwork was recovered. " + message;
+      // } else {
+      //   message = "😔 Uh oh. Something went wrong. " + message;
+      // }
+
+      // setLoading(false);
+      // setMessage(message);
+      // setCases(cases);
+      // setProg(0);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setLoading(false);
       setMessage('An error occurred while submitting your URL.');
     }
