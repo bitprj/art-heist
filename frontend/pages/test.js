@@ -127,8 +127,6 @@ const Test = () => {
         }
       }
 
-      console.log(batches);
-
       // Send the requests in batches using Promise.all
       for (const batch of batches) {
         const promises = batch.map(i => axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/check`,
