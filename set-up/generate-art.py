@@ -18,7 +18,7 @@ def rgb2hex(r,g,b):
   return "{:02x}{:02x}{:02x}".format(r, g, b)
 
 # Open the image file
-with Image.open("image.jpg") as image:
+with Image.open("image2.jpg") as image:
   participants = int(sys.argv[1])
 
   # Get the original width and height of the image
@@ -61,6 +61,7 @@ with Image.open("image.jpg") as image:
       print(rgb_value, hex_value, count)
       cur.execute("INSERT INTO art_pixels (location, rgb_value, correct_hex) VALUES (%s, %s, %s)", (count, rgb_value, hex_value))
 
+  print(width, height)
   # Save the changes to the database
   conn.commit()
 

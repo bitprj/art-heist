@@ -15,7 +15,7 @@ function Pixel(hexValue) {
     return (
       <Popover trigger="hover">
         <PopoverTrigger>
-          <Box _hover={{ filter: 'brightness(250%)' }} p={2} w='auto' h='16px' bg={"#" + hexValue.hex_value}>
+          <Box _hover={{ filter: 'brightness(250%)' }} w='auto' h='16px' bg={"#" + hexValue.hex_value}>
           </Box>
         </PopoverTrigger>
         <PopoverContent borderRadius="4px" w='auto' h='auto' bg='white'>

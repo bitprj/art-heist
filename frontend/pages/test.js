@@ -1,7 +1,7 @@
-import { CircularProgress, Box, VStack, Flex, Button, Input, Text, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody } from '@chakra-ui/react';
+import { FormHelperText, FormErrorMessage, CircularProgress, Box, VStack, Flex, Button, Input, Text, Center, TableContainer, Thead, Tr, Th, TableCaption, Td, Table, Tbody, FormControl } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import fetch from 'node-fetch';
 import { useUser } from '@clerk/nextjs'
+import axios from 'axios';
 
 function Bar(loading, prog) {
   if (loading) {
@@ -71,6 +71,7 @@ const Test = () => {
   const [loading, setLoading] = useState(false);
   var startPixel = "";
   var endPixel = "";
+  const isError = inputValue === '';
 
   try {
     startPixel = user.publicMetadata.public_metadata.range.split(",")[0];
@@ -98,35 +99,69 @@ const Test = () => {
     var end = parseInt(user.publicMetadata.public_metadata.range.split(",")[1]);
 
     try {
-      for (let i = start; i <= end; i++) {
-        const response = await fetch('/api/check', {
-          method: 'POST',
-          body: JSON.stringify({
-            "location": i,
-            "username": user.username,
-            "url": inputValue
+      // Set the number of requests to send in each batch
+      const batchSize = 50;
+      var output = [];
+      var total = end - start + 1;
+
+      // Split the range of integers into batches
+      var s = start;
+      var e = start + batchSize;
+      var interval = Math.floor(total / batchSize);
+      console.log(s, e, total, total / batchSize)
+      var batches = [];
+      total -= batchSize;
+      for (var i = 0; i < interval; i++) {
+        let a = []
+        for (var x = s; x < e; x++) {
+          a.push(x);
+        }
+        batches.push(a)
+
+        total -= batchSize;
+        s += batchSize;
+        e += batchSize;
+
+        if (total < batchSize) {
+          e += total;
+        }
+      }
+
+      // Send the requests in batches using Promise.all
+      for (const batch of batches) {
+        const promises = batch.map(i => axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}api/check`,
+          {
+            location: i,
+            username: user.username,
+            url: inputValue
           }),
-          headers: { 'Content-Type': 'application/json' },
-        });
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          })
 
-        const result = await response.json();
-        console.log(result.case);
+        setProg(Math.floor((batch[batch.length / 2] - start) / (end - start + 1) * 100));
 
-        if (typeof result.case === 'string' || result.case instanceof String) {
-          message = result.case;
+        const results = await Promise.all(promises);
+        // Do something with the results
+        output = output.concat(results);
+      }
+
+      console.log(output);
+
+      for (var i = 0; i < output.length; i++) {
+        console.log(output[i]);
+        if (typeof output[i].data.case === 'string' || output[i].data.case instanceof String) {
+          message = output[i].data.case;
           success = false;
           setLoading(false);
           break;
-        } else if (result.case.status == "❌") {
+        } else if (output[i].data.case.status == "❌") {
           success = false;
         }
 
-        console.log(result);
-        cases.push(result.case);
-
-        setProg(Math.floor((i - start) / (end - start + 1) * 100));
-        console.log(i, start, end)
-        console.log(Math.floor(i / (end - start + 1) * 100))
+        cases.push(output[i].data.case);
       }
 
       if (success) {
@@ -140,7 +175,7 @@ const Test = () => {
       setCases(cases);
       setProg(0);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setLoading(false);
       setMessage('An error occurred while submitting your URL.');
     }
@@ -161,15 +196,24 @@ const Test = () => {
         </Box>
         <br></br>
         <Text htmlFor="input" fontSize="xl">Enter your Lambda function's endpoint:</Text>
-        <Input
-          id="input"
-          type="text"
-          value={inputValue}
-          onChange={(event) => setInputValue(event.target.value)}
-          placeholder="Your Lambda function's URL"
-          width="600px"
-          isRequired
-        />
+        <FormControl isInvalid={isError}>
+          <Input
+            id="input"
+            type="text"
+            value={inputValue}
+            onChange={(event) => setInputValue(event.target.value)}
+            placeholder="Your Lambda function's URL"
+            width="600px"
+            isRequired
+          />
+          {!isError ? (
+            <FormHelperText>
+              Press submit to test.
+            </FormHelperText>
+          ) : (
+            <FormErrorMessage>URL is required.</FormErrorMessage>
+          )}
+        </FormControl>
         <br></br>
         <Button type="submit" onClick={handleSubmit}>
           Submit
