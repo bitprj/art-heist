@@ -6,7 +6,11 @@ import { QuestionOutlineIcon } from '@chakra-ui/icons';
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
 
 function Pixel(hexValue) {
-  if (hexValue.hex_value == null) {
+  var hVal = hexValue.hex_value;
+  var cVal = hexValue.correct_hex;
+  console.log(hVal, cVal);
+
+  if (hVal == null) {
     return (
       <QuestionOutlineIcon color="black" />
     );
@@ -15,7 +19,7 @@ function Pixel(hexValue) {
     return (
       <Popover trigger="hover">
         <PopoverTrigger>
-          <Box _hover={{ filter: 'brightness(250%)' }} w='auto' h='16px' bg={"#" + hexValue.hex_value}>
+          <Box _hover={{ filter: 'brightness(250%)' }} w='auto' h='16px' bg={"#" + hVal}>
           </Box>
         </PopoverTrigger>
         <PopoverContent borderRadius="4px" w='auto' h='auto' bg='white'>
@@ -40,7 +44,7 @@ const Art = () => {
         setLoading(true);
         let { data: art_pixels, error } = await supabase
           .from('art_pixels')
-          .select("hex_value, username, updated_at, location")
+          .select("hex_value, correct_hex, username, updated_at, location")
           .order('location', { ascending: true })
 
         console.log(art_pixels)
@@ -72,7 +76,7 @@ const Art = () => {
 
   return (
     <Center bg='white' w='calc(100vw)' h='calc(80vh)' color='white'>
-      <SimpleGrid spacingX='0px' spacingY='0px' w='auto' h='auto' columns={32}>
+      <SimpleGrid spacingX='0px' spacingY='0px' w='auto' h='auto' columns={40}>
         {hexValues.map(hexValue => Pixel(hexValue))}
       </SimpleGrid>
     </Center>
