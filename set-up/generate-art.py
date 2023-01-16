@@ -18,7 +18,7 @@ def rgb2hex(r,g,b):
   return "{:02x}{:02x}{:02x}".format(r, g, b)
 
 # Open the image file
-with Image.open("image2.jpg") as image:
+with Image.open("stream.jpg") as image:
   participants = int(sys.argv[1])
 
   # Get the original width and height of the image
