@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Center, SimpleGrid, Text, Spinner, Popover, PopoverTrigger, PopoverContent, PopoverBody, Box } from '@chakra-ui/react';
+import { Center, SimpleGrid, Text, Spinner, Popover, PopoverTrigger, PopoverContent, PopoverBody, Box } from '@chakra-ui/react';
 import { createClient } from '@supabase/supabase-js';
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
