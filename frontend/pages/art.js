@@ -44,7 +44,7 @@ const Art = () => {
         }
         let { data: art_pixels, error } = await supabase
           .from('art_pixels')
-          .select("hex_value, correct_hex, username, updated_at, location")
+          .select("hex_value, username, updated_at, location")
           .order('location', { ascending: true })
 
         console.log(art_pixels)
@@ -54,7 +54,7 @@ const Art = () => {
       } finally {
         setLoading(false);
       }
-    }, 3000)
+    }, 1000)
     return () => clearInterval(interval)
   }, [hexValues])
 

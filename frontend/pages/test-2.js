@@ -3,13 +3,6 @@ import React, { useState } from 'react';
 import { useUser } from '@clerk/nextjs'
 import axios from 'axios';
 
-function MoveOn(message) {
-  if (message.includes("Success")) {
-    <Button type="submit" onClick='/test-2'>
-      Next Challenge!
-    </Button>
-  }
-}
 function Bar(loading, prog) {
   if (loading) {
     return (
@@ -28,7 +21,6 @@ function Loading(message, cases) {
         <Box pl="30px" pr="30px" w="auto" borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow="xl">
           <VStack spacing={4}>
             <Text mt={4}>{message}</Text>
-            {MoveOn(message)}
             <Center>
               <TableContainer>
                 <Table variant='simple'>
@@ -141,7 +133,8 @@ const Test = () => {
           {
             location: i,
             username: user.username,
-            url: inputValue
+            url: inputValue,
+            challenge: 2
           }),
           {
             headers: {
@@ -193,7 +186,7 @@ const Test = () => {
     <Center>
       <Flex direction="column" alignItems="center" mt={8}>
         <Flex>
-          <Text htmlFor="input" fontSize="5xl">Welcome,&nbsp;</Text>
+          <Text htmlFor="input" fontSize="5xl">Welcome to <b>Challenge 2</b>,&nbsp;</Text>
           <Text htmlFor="input" fontSize="5xl" color="#325BF1"><b>{user.firstName}</b></Text>
           <Text htmlFor="input" fontSize="5xl">!</Text>
         </Flex>
