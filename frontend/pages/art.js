@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Center, SimpleGrid, Text, Spinner, Popover, PopoverTrigger, PopoverContent, PopoverBody, Box } from '@chakra-ui/react';
+import { Image, Center, SimpleGrid, Text, Spinner, Popover, PopoverTrigger, PopoverContent, PopoverBody, Box } from '@chakra-ui/react';
 import { createClient } from '@supabase/supabase-js';
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
@@ -33,11 +33,15 @@ function Pixel(hexValue) {
 const Art = () => {
   const [hexValues, setHexValues] = useState([])
   const [loading, setLoading] = useState(true);
+  var l = 0;
 
   useEffect(() => {
-    const loadPixels = async () => {
+    const interval = setInterval( async () => {
       try {
-        setLoading(true);
+        if (l < 0) {
+          setLoading(true);
+          l++;
+        }
         let { data: art_pixels, error } = await supabase
           .from('art_pixels')
           .select("hex_value, correct_hex, username, updated_at, location")
@@ -50,9 +54,9 @@ const Art = () => {
       } finally {
         setLoading(false);
       }
-    };
-    loadPixels();
-  }, []);
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [hexValues])
 
   // if loading, just show basic message
   if (loading) {
