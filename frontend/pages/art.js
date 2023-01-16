@@ -6,11 +6,7 @@ import { QuestionOutlineIcon } from '@chakra-ui/icons';
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
 
 function Pixel(hexValue) {
-  var hVal = hexValue.hex_value;
-  var cVal = hexValue.correct_hex;
-  console.log(hVal, cVal);
-
-  if (hVal == null) {
+  if (hexValue.hex_value == null) {
     return (
       <QuestionOutlineIcon color="black" />
     );
@@ -19,7 +15,7 @@ function Pixel(hexValue) {
     return (
       <Popover trigger="hover">
         <PopoverTrigger>
-          <Box _hover={{ filter: 'brightness(250%)' }} w='auto' h='16px' bg={"#" + hVal}>
+          <Box _hover={{ filter: 'brightness(250%)' }} w='16px' h='16px' bg={"#" + hexValue.hex_value}>
           </Box>
         </PopoverTrigger>
         <PopoverContent borderRadius="4px" w='auto' h='auto' bg='white'>
