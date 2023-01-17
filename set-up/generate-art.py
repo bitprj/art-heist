@@ -47,7 +47,7 @@ with Image.open("stream.jpg") as image:
 
   # Create the table to store the pixel data
   cur.execute("DROP TABLE art_pixels")
-  cur.execute("CREATE TABLE art_pixels (location INTEGER, rgb_value VARCHAR(255), hex_value VARCHAR(255), correct_hex VARCHAR(255), updated_at VARCHAR(255), username VARCHAR(255))")
+  cur.execute("CREATE TABLE art_pixels (location INTEGER, rgb_value VARCHAR(255), hex_value VARCHAR(255), correct_hex_one VARCHAR(255), correct_hex_two VARCHAR(255), updated_at VARCHAR(255), username VARCHAR(255))")
 
   # Loop through the image pixels and store their RGB values in the database
   count = 0
@@ -58,8 +58,9 @@ with Image.open("stream.jpg") as image:
       r, g, b = image.getpixel((x, y))
       rgb_value = str(r) + "," + str(g) + "," + str(b)
       hex_value = rgb2hex(r, g, b)
+      m_hex_value = rgb2hex(min(255, r*5), g, b)
       print(rgb_value, hex_value, count)
-      cur.execute("INSERT INTO art_pixels (location, rgb_value, correct_hex) VALUES (%s, %s, %s)", (count, rgb_value, hex_value))
+      cur.execute("INSERT INTO art_pixels (location, rgb_value, correct_hex_one, correct_hex_two) VALUES (%s, %s, %s, %s)", (count, rgb_value, hex_value, m_hex_value))
 
   print(width, height)
   # Save the changes to the database
