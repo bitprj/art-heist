@@ -8,9 +8,9 @@ function MoveOn(message) {
   const router = useRouter()
   if (message.includes("Success")) {
     return (
-    <Button colorScheme="blue" onClick={() => router.push('/test-2')}>
-      Next Challenge!
-    </Button>)
+      <Button colorScheme="blue" onClick={() => router.push('/test-2')}>
+        Next Challenge!
+      </Button>)
   }
 }
 
@@ -208,25 +208,40 @@ const Test = () => {
           <Text htmlFor="input" fontSize="large">Your function will restore pixels <b>{startPixel}</b> through <b>{endPixel}</b>.</Text>
         </Box>
         <br></br>
-        <Text htmlFor="input" fontSize="xl">Enter your Lambda function's endpoint:</Text>
-        <FormControl isInvalid={isError}>
-          <Input
-            id="input"
-            type="text"
-            value={inputValue}
-            onChange={(event) => setInputValue(event.target.value)}
-            placeholder="Your Lambda function's URL"
-            width="600px"
-            isRequired
-          />
-          {!isError ? (
-            <FormHelperText>
-              Press submit to test.
-            </FormHelperText>
-          ) : (
-            <FormErrorMessage>URL is required.</FormErrorMessage>
-          )}
-        </FormControl>
+        <Box pl="300px" pr="300px" w="auto" overflow='hidden'>
+          <Text align="center" fontSize="lg">Once upon a time, there was a billionaire named John who had a passion for collecting unique and rare digital assets known as NFTs. He had spent a fortune amassing a collection of some of the most sought-after pieces in the digital art world.
+          </Text>
+          <br></br>
+          <Text align="center" fontSize="lg">
+            One day, while experimenting with creating APIs for displaying his collection, John accidentally made one of his most valuable NFTs available to the general public via this API. The piece was a one-of-a-kind digital sculpture created by a renowned artist, and it was worth millions of dollars.
+          </Text>
+          <br></br>
+          <Text align="center" fontSize="lg">
+            It's your job now to create a serverless function to convert the results from the API to a format that works for the super duper secret art heist storage system.
+          </Text>
+        </Box>
+        <br></br>
+        <Flex direction="column" alignItems="center">
+          <Text htmlFor="input" fontSize="xl">Enter your Lambda function's endpoint:</Text>
+          <FormControl isInvalid={isError}>
+            <Input
+              id="input"
+              type="text"
+              value={inputValue}
+              onChange={(event) => setInputValue(event.target.value)}
+              placeholder="Your Lambda function's URL"
+              width="600px"
+              isRequired
+            />
+            {!isError ? (
+              <FormHelperText>
+                Press submit to test.
+              </FormHelperText>
+            ) : (
+              <FormErrorMessage>URL is required.</FormErrorMessage>
+            )}
+          </FormControl>
+        </Flex>
         <br></br>
         <Button type="submit" onClick={handleSubmit}>
           Submit

@@ -196,25 +196,40 @@ const Test = () => {
           <Text htmlFor="input" fontSize="large">Your function will restore pixels <b>{startPixel}</b> through <b>{endPixel}</b>.</Text>
         </Box>
         <br></br>
-        <Text htmlFor="input" fontSize="xl">Enter your Lambda function's endpoint:</Text>
-        <FormControl isInvalid={isError}>
-          <Input
-            id="input"
-            type="text"
-            value={inputValue}
-            onChange={(event) => setInputValue(event.target.value)}
-            placeholder="Your Lambda function's URL"
-            width="600px"
-            isRequired
-          />
-          {!isError ? (
-            <FormHelperText>
-              Press submit to test.
-            </FormHelperText>
-          ) : (
-            <FormErrorMessage>URL is required.</FormErrorMessage>
-          )}
-        </FormControl>
+        <Box pl="300px" pr="300px" w="auto" overflow='hidden'>
+          <Text align="center" fontSize="lg">You are the NFT thief, known only by your online handle. Your specialty is breaking into the digital vaults of the wealthy and powerful, stealing their valuable NFTs and selling them on the dark web for a hefty profit.
+          </Text>
+          <br></br>
+          <Text align="center" fontSize="lg">
+          But your latest theft is different. As you go through the NFTs you have just stolen, you receive a cryptic letter in your inbox. It reads: "You have something that belongs to us. Adjust the RGB value of the NFT and the hidden message will be revealed.
+          </Text>
+          <br></br>
+          <Text align="center" fontSize="lg">
+          It's your job now to create another child serverless function to adjust the rgb values from the results of the API to a format that works for the super duper secret art heist storage system.
+          </Text>
+        </Box>
+        <br></br>
+        <Flex direction="column" alignItems="center">
+          <Text htmlFor="input" fontSize="xl">Enter your Lambda function's endpoint:</Text>
+          <FormControl isInvalid={isError}>
+            <Input
+              id="input"
+              type="text"
+              value={inputValue}
+              onChange={(event) => setInputValue(event.target.value)}
+              placeholder="Your Lambda function's URL"
+              width="600px"
+              isRequired
+            />
+            {!isError ? (
+              <FormHelperText>
+                Press submit to test.
+              </FormHelperText>
+            ) : (
+              <FormErrorMessage>URL is required.</FormErrorMessage>
+            )}
+          </FormControl>
+        </Flex>
         <br></br>
         <Button type="submit" onClick={handleSubmit}>
           Submit
