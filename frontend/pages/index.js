@@ -12,11 +12,14 @@ import {
   Img,
   Container,
   Divider,
+  OrderedList,
+  ListItem,
+  Button,
 } from "@chakra-ui/react";
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>NFT Art Heist</title>
         <meta
@@ -63,10 +66,9 @@ export default function Home() {
         />
 
         <SimpleGrid
-          columns={{ base: "1", md: "2" }}
+          columns={{ base: "1", lg: "2" }}
           spacing={16}
           mt={8}
-          border="2px solid red"
           textAlign="center"
         >
           <Box>
@@ -91,11 +93,48 @@ export default function Home() {
             <Heading size="lg" fontWeight="black">
               Get Started
             </Heading>
+
+            <OrderedList mt={4} color="gray.100" fontSize="lg">
+              <ListItem>
+                If you don&apos;t have an account, head to the{" "}
+                <Link href="/signup" color="#87c0fa">
+                  sign up page
+                </Link>
+                .
+              </ListItem>
+              <ListItem>
+                If you already have an account, head to the{" "}
+                <Link href="/signin" color="#87c0fa">
+                  sign in page
+                </Link>
+                .
+              </ListItem>
+              <ListItem>
+                Read the{" "}
+                <Link
+                  href="https://github.com/bitprj/art-heist/blob/main/instructions.md"
+                  color="#87c0fa"
+                  isExternal
+                >
+                  instructions
+                </Link>{" "}
+                to get started.
+              </ListItem>
+            </OrderedList>
+
+            <Stack direction="row" spacing={4} justifyContent="center" mt={4}>
+              <Button as="a" href="/art" colorScheme="blue" size="md">
+                Progress of art restoration
+              </Button>
+              <Button as="a" href="/test" colorScheme="green" size="md">
+                Test your NFT-Art-Restorer
+              </Button>
+            </Stack>
           </Box>
         </SimpleGrid>
 
         <Divider mt={8} />
-        <Text textAlign="center" mt={4} color="gray.300">
+        <Text textAlign="center" my={4} color="gray.300">
           For any questions about this workshop, please email{" "}
           <Link href="mailto:info@bitproject.org" color="#87c0fa">
             info@bitproject.org
@@ -103,51 +142,6 @@ export default function Home() {
           .
         </Text>
       </Container>
-
-      <main className={styles.main}>
-        {/* <h1 className={styles.title}>
-          Welcome to the{" "}
-          <a href="/">
-            <b>NFT Art Heist</b>
-          </a>{" "}
-          Workshop!
-        </h1> */}
-
-        <p className={styles.description}>
-          Get started by <a href="/signin">signing in</a> or{" "}
-          <a href="/signup">creating an account</a>.
-          {/* <code className={styles.code}>pages/index.js</code> */}
-        </p>
-
-        <div className={styles.grid}>
-          <a href="/art" className={styles.card}>
-            <h2>🖼 The Art &rarr;</h2>
-            <p>Click here to see the progress of art restoration.</p>
-          </a>
-
-          <a href="/test" className={styles.card}>
-            <h2>🧪 Test &rarr;</h2>
-            <p>Click here to test your NFT-Art-Restorer.</p>
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://www.bitproject.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Created by Bit Project&nbsp;&nbsp;
-          <span>
-            <Image
-              src="https://www.bitproject.org/logo.png"
-              alt="Bit Project Logo"
-              width={30}
-              height={30}
-            />
-          </span>
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }

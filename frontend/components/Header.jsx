@@ -16,9 +16,9 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.headerItem}>
-        <Link href="/" className={styles.homeButton}>
+        {/* <Link href="/" className={styles.homeButton}>
           The NFT Heist
-        </Link>
+        </Link> */}
       </div>
       <SignedIn>
         <div className={styles.headerItem}>
