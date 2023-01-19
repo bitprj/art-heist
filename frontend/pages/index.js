@@ -28,7 +28,18 @@ export default function Home() {
 
       <Container maxW="container.xl">
         <Box mt={4}>
-          <Heading textAlign="center" fontWeight="black" size="3xl">
+          <Box color="gray.300">
+            <Text textAlign="center">
+              Last updated on 1/19/2023{" "}
+              <Text as="span" color="green.300">
+                •
+              </Text>{" "}
+              <Text as="span" fontWeight="bold">
+                739 active learners
+              </Text>
+            </Text>
+          </Box>
+          <Heading textAlign="center" fontWeight="black" size="3xl" mt={8}>
             Bit Project's <br />
             <Text as="span" color="#87c0fa">
               NFT Art Heist Workshop
@@ -46,7 +57,7 @@ export default function Home() {
         <Img
           src="/temp_img.png"
           alt="workshop in progress image"
-          mt={8}
+          mt={16}
           maxH="500px"
           marginX="auto"
         />
