@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>NFT Art Heist</title>
+        <title>Bit Project NFT Art Heist Workshop</title>
         <meta
           name="description"
           content="NFT Art Heist workshop by Bit Project for students to learn AWS Lambda, Node.js, and Serverless."
