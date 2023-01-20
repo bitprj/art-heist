@@ -51,7 +51,7 @@ export default function Home() {
           {/* show the tool badges */}
           <Stack direction="row" spacing={4} justifyContent="center" mt={4}>
             <Badge colorScheme="blue">AWS Lambda</Badge>
-            <Badge colorScheme="green">Node.js</Badge>
+            <Badge colorScheme="green">Python</Badge>
             <Badge colorScheme="red">Serverless</Badge>
             <Badge colorScheme="orange">Beginner Friendly</Badge>
           </Stack>
