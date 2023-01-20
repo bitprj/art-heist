@@ -55,6 +55,15 @@ export default function Home() {
             <Badge colorScheme="red">Serverless</Badge>
             <Badge colorScheme="orange">Beginner Friendly</Badge>
           </Stack>
+
+          <Stack direction="row" spacing={4} justifyContent="center" mt={4}>
+            <Button as="a" href="/art" colorScheme="blue" size="md">
+              Progress of art restoration
+            </Button>
+            <Button as="a" href="/test" colorScheme="green" size="md">
+              Test your NFT-Art-Restorer
+            </Button>
+          </Stack>
         </Box>
 
         <Img
@@ -69,7 +78,7 @@ export default function Home() {
           columns={{ base: "1", lg: "2" }}
           spacing={16}
           mt={8}
-          textAlign="center"
+          textAlign="left"
         >
           <Box>
             <Heading size="lg" fontWeight="black">
@@ -121,15 +130,6 @@ export default function Home() {
                 to get started.
               </ListItem>
             </OrderedList>
-
-            <Stack direction="row" spacing={4} justifyContent="center" mt={4}>
-              <Button as="a" href="/art" colorScheme="blue" size="md">
-                Progress of art restoration
-              </Button>
-              <Button as="a" href="/test" colorScheme="green" size="md">
-                Test your NFT-Art-Restorer
-              </Button>
-            </Stack>
           </Box>
         </SimpleGrid>
 
