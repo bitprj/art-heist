@@ -27,7 +27,9 @@ In your portal, you will be automatically assigned pixel values that your functi
 * APIs
 * "The Cloud"
 
-In short, a serverless function is a way to run code *without worrying about how to host a server*. It's a way to run small snippets of code meant to be executed over and over again.
+In short, a serverless function is a way to run code *without worrying about how to host a server*. It allows developers to run small snippets of code meant to be executed over and over again on servers they don't need to manage.
+
+[A deeper dive into what "serverless" is.](https://www.redhat.com/en/topics/cloud-native-apps/what-is-serverless)
 
 ### Getting Started
 1. Make an account on [the workshop website](https://art-heist.vercel.app/)
@@ -95,6 +97,34 @@ Recall that your function should do three things:
 2. Convert the RGB color value to its hex equivalent.
 3. Return the hex equivalent in a JSON object formatted as `{"hex": "the hex value"}`.
 
+**Starter Code:**
+```py
+import json
+
+def lambda_handler(event, context):
+    # Get the RGB value from the event object (parameter)
+    rgb = event["queryStringParameters"]["rgb"]
+
+    # Split the RGB value into separate red, green, and blue values
+    split_rgb = rgb.split(',')
+    
+    # Access each hex value by indexes (make sure to convert to integer!)
+    red = # Your code here
+    green = # Your code here
+    blue = # Your code here
+
+    # Convert the red, green, blue color values to hex representation
+    hex_red = # Your code here
+    hex_green = # Your code here
+    hex_blue = # Your code here
+    
+    # Concatenate hex values
+    hex_value = # Your code here
+    
+    # Return the hex value
+    return { 'hex': hex_value}
+```
+
 **1. Parameters**
 
 [URL Parameters](https://www.searchenginejournal.com/technical-seo/url-parameter-handling/#:~:text=What%20Are%20URL%20Parameters%3F,page%20by%20using%20an%20ampersand.) are a simply a way of passing information. They look like this:
@@ -102,33 +132,56 @@ Recall that your function should do three things:
 ```
 www.test.com?parameter1=value1&parameter2=value2
 ```
-To receive the value of, let's say, `parameter1`, you would put this in your code:
+In our case, we put this line in our code to receive the "rgb" parameter.
 
-```js
-const param = event["queryStringParameters"]["parameter1"]
+```py
+rgb = event["queryStringParameters"]["rgb"]
 ```
 
 **2. Converting Values**
 
+* [What are RGB and hex values and how do they relate to each other?](https://users.cs.utah.edu/~germain/PPS/Topics/color.html)
+* [Experimenting with hex and RGB values](https://imagecolorpicker.com/en)
+
 First, keep in mind that the input type of the RGB value is a *string* and that it is formatted like `r,g,b`.
 
-Here are some resources to look into:
-* `.split()` JS method
-* `parseInt()` JS function
-* StackOverflow
+A user would've passed it in the URL like so, where the red, green, and blue values are all 1.
+```
+www.test.com?rgb=1,1,1
+```
 
-Remember that the hex value should be formatted like `ffffff`!
+The next line of code splits the user's input into a Python List with the separated red, green, and blue values.
+```py
+split_rgb = rgb.split(',')
+# Example value of split_rgb: [1, 1, 1]
+```
+
+Using `split_rgb`, assign the red, green, and blue values from the List to their own variables. **Be sure to convert them to integers!**
+```py
+red = # Your code here
+green = # Your code here
+blue = # Your code here
+```
+
+Format strings in Python can come in handy when you're converting between data values. Using this format string `f'{your_variable:02x}'`, format the `red`, `green`, and `blue` RGB values in hex.
+```py
+hex_red = # Your code here
+hex_green = # Your code here
+hex_blue = # Your code here
+```
+
+Finally, concatenate the values (now in hex) together in order of red, green, and blue to create a full color hex code.
+```py
+hex_value = # Your code here
+```
 
 **3. Returning a Response**
 
-To return a response to the HTTP request, simply modify the `response` object that was in the starter code.
-```js
-const response = {
-    statusCode: 200,
-    body: JSON.stringify({"hex": hex}),
-};
-return response;
+The last line in the code provided returns your converted `hex_value` with this statement in a dictionary object.
+```py
+return { 'hex': hex_value}
 ```
+> :question: **Where is this returning to?** If you're confused about where the function is returning its information to, head to the next section to see your lambda function in action.
 
 </details>
 
