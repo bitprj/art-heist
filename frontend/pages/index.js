@@ -24,7 +24,7 @@ export default function Home() {
         <title>Bit Project NFT Art Heist Workshop</title>
         <meta
           name="description"
-          content="NFT Art Heist workshop by Bit Project for students to learn AWS Lambda, Node.js, and Serverless."
+          content="NFT Art Heist workshop by Bit Project for students to learn AWS Lambda, Python, and Serverless."
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -86,14 +86,10 @@ export default function Home() {
             </Heading>
             <Text mt={4} color="gray.100" fontSize="lg">
               In this workshop, you will learn how to use AWS Lambda, Node.js,
-              and Serverless to create a NFT Art Restorer. For more detailed
-              instructions, please look at our GitHub's{" "}
-              <Link
-                href="https://github.com/bitprj/art-heist/blob/main/instructions.md"
-                color="#87c0fa"
-                isExternal
-              >
-                instructions.md file
+              and Serverless to create a NFT Art Restorer. To get started,
+              please read the{" "}
+              <Link href="/instructions" color="#87c0fa" isExternal>
+                instructions page
               </Link>
               .
             </Text>
@@ -120,11 +116,7 @@ export default function Home() {
               </ListItem>
               <ListItem>
                 Read the{" "}
-                <Link
-                  href="https://github.com/bitprj/art-heist/blob/main/instructions.md"
-                  color="#87c0fa"
-                  isExternal
-                >
+                <Link href="/instructions" color="#87c0fa" isExternal>
                   instructions
                 </Link>{" "}
                 to get started.

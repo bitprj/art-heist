@@ -1,12 +1,20 @@
 import "../styles/globals.css";
 import { ClerkLoaded, ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
-import { ChakraProvider, Center } from "@chakra-ui/react";
+import { ChakraProvider, Center, extendTheme } from "@chakra-ui/react";
 import Header from "../components/Header.jsx";
 import { useRouter } from "next/router";
 import { Global, css } from "@emotion/react";
 import { useColorMode } from "@chakra-ui/react";
 import { useEffect } from "react";
-const publicPages = ["/", "/art", "/signin", "/signup"];
+import { StepsStyleConfig as Steps } from "chakra-ui-steps";
+
+const theme = extendTheme({
+  components: {
+    Steps,
+  },
+});
+
+const publicPages = ["/", "/art", "/signin", "/signup", "/instructions"];
 
 function ForceDarkMode({ children }) {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -45,7 +53,7 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <GlobalStyle>
         <ForceDarkMode>
           <ClerkProvider {...pageProps}>
