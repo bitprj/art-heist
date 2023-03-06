@@ -33,7 +33,7 @@ export default function Home() {
         <Box mt={4}>
           <Box color="gray.300">
             <Text textAlign="center">
-              Last updated on 1/19/2023{" "}
+              Last updated on 3/5/2023{" "}
               <Text as="span" color="green.300">
                 •
               </Text>{" "}

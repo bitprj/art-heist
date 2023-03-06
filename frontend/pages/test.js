@@ -4,15 +4,15 @@ import { useRouter } from 'next/router';
 import { useUser } from '@clerk/nextjs'
 import axios from 'axios';
 
-function MoveOn(message) {
-  const router = useRouter()
-  if (message.includes("Success")) {
-    return (
-      <Button colorScheme="blue" onClick={() => router.push('/test-2')}>
-        Next Challenge!
-      </Button>)
-  }
-}
+// function MoveOn(message) {
+//   const router = useRouter()
+//   if (message.includes("Success")) {
+//     return (
+//       <Button colorScheme="blue" onClick={() => router.push('/test-2')}>
+//         Next Challenge!
+//       </Button>)
+//   }
+// }
 
 function Bar(loading, prog) {
   if (loading) {
@@ -32,7 +32,7 @@ function Loading(message, cases) {
         <Box pl="30px" pr="30px" w="auto" borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow="xl">
           <VStack spacing={4}>
             <Text mt={4}>{message}</Text>
-            {MoveOn(message)}
+            {/* {MoveOn(message)} */}
             <Center>
               <TableContainer>
                 <Table variant='simple'>
