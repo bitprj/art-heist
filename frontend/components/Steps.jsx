@@ -116,7 +116,7 @@ const Step2TheTask = () => (
       code meant to be executed over and over again on servers they don't need
       to manage.{" "}
       <Link
-        href="https://www.redhat.com/en/topics/cloud-native-apps/what-is-serverless"
+        href="https://aws.amazon.com/getting-started/deep-dive-serverless/"
         isExternal
         color="blue.300"
       >
