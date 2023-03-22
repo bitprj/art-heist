@@ -50,6 +50,18 @@ const Header = () => {
           >
             Sign In
           </Button>
+          <Button
+          ml="4"
+            as="a"
+            size="lg"
+            href="/signup"
+            bg="#0d5aa8"
+            _hover={{
+              bg: "#042c54",
+            }}
+          >
+            Sign Up
+          </Button>
         </div>
       </SignedOut>
     </header>

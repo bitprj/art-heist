@@ -455,6 +455,18 @@ const Step7Test = () => (
   <>
     <Heading fontSize="xl">Test the Function</Heading>
     <CustomText>
+      First, let's test our function on the user interface. Click the "Test" button to configure a new event, copy and paste the JSON code below, and don't forget to add a name!
+    </CustomText>
+
+    <CustomText>
+      <Code>{` { "queryStringParameters": { "rgb": "1,1,1" } }`}</Code>
+    </CustomText>
+
+    <CustomQuote>
+      <b>💡 Tip</b>: Make sure you press the "Deploy" button every time before you test!
+    </CustomQuote>
+
+    <CustomText>
       Get your URL you obtained from your API Gateway back in Step 3.
     </CustomText>
 
