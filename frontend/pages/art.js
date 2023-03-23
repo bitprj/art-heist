@@ -8,14 +8,14 @@ const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.
 function Pixel(hexValue) {
   if (hexValue.hex_value == null) {
     return (
-      <QuestionOutlineIcon color="black" />
+      <QuestionOutlineIcon boxSize={2} color="black" />
     );
   } else {
     var dateTime = new Date(parseInt(hexValue.updated_at))
     return (
       <Popover trigger="hover">
         <PopoverTrigger>
-          <Box _hover={{ filter: 'brightness(250%)' }} w='16px' h='16px' bg={"#" + hexValue.hex_value}>
+          <Box _hover={{ filter: 'brightness(250%)' }} w='8px' h='8px' bg={"#" + hexValue.hex_value}>
           </Box>
         </PopoverTrigger>
         <PopoverContent borderRadius="4px" w='auto' h='auto' bg='white'>
@@ -76,7 +76,7 @@ const Art = () => {
 
   return (
     <Center bg='white' w='calc(100vw)' h='calc(80vh)' color='white'>
-      <SimpleGrid spacingX='0px' spacingY='0px' w='auto' h='auto' columns={40}>
+      <SimpleGrid spacingX='0px' spacingY='0px' w='auto' h='auto' columns={80}>
         {hexValues.map(hexValue => Pixel(hexValue))}
       </SimpleGrid>
     </Center>
